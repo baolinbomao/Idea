@@ -1,0 +1,123 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:10-stretch
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    steps:
+      - checkout
+
+      - run: git fetch origin
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # Run Check
+
+      # 文件uuid、重名、meta问题检查
+      - run: yarn check:file
+
+      # 根据分支检查版本号
+      # - run:
+      #    command: |
+      #      tools/version-branch-check.sh
+
+      # Run lint
+      # - run: yarn lint
+
+      # Run prettier check
+      - run: yarn check:prettier:changed
+
+      # Run test
+      # - run: yarn test
+      # Run build
+      # - run: yarn build
+
+      - run: git tag -l > tags.txt
+      - save_cache:
+          paths:
+            - package.json
+            - tags.txt
+          key: jenkins-dependencies-{{ .Revision }}
+  # jenkins:
+  # docker:
+  #   - image: cibuilds/github:0.12
+  # working_directory: /home/circleci/project
+  # steps:
+  #   - restore_cache:
+  #       keys:
+  #         - jenkins-dependencies-{{ .Revision }}
+  #   - run:
+  #       command: |
+  #         # Get package version
+  #         VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[", ]//g')
+  #         echo "Package version is v$VERSION"
+  #         # Get version prerelease
+  #         PRERELEASE=$(echo $VERSION | awk -F[-.] '{ print $4 }')
+  #         if [ -n "$PRERELEASE" ]; then
+  #           echo "Prerelease is $PRERELEASE"
+  #         fi
+  #         # Get token
+  #         case $PRERELEASE in
+  #           "rc") TOKEN=$JENKINS_TOKEN_RC;;
+  #           "hotfix") TOKEN=$JENKINS_TOKEN_HOTFIX;;
+  #           "") TOKEN=$JENKINS_TOKEN_PRODUCTION;; # production
+  #           *) TOKEN="";; # nothing
+  #         esac
+  #         #echo "Token is $TOKEN"
+  #         if [ -n "$TOKEN" ]; then
+  #           TAG=v$VERSION
+  #           echo "Check if tag $TAG exists?"
+  #           # If version tag is not exist, add git tag and post jenkins trigger.
+  #           if ! cat tags.txt | grep -Fx $TAG >/dev/null 2>&1; then
+  #             # Add git tag
+  #             echo "Add git tag $TAG."
+  #             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} ${TAG} ./package.json
+  #             # Post jenkins trigger.
+  #             echo "Post jenkins trigger."
+  #             curl POST \
+  #             -H "Content-Type:application/json" \
+  #             -d '{"version":"'$VERSION'","branch":"'$CIRCLE_BRANCH'"}' \
+  #             https://dev.congmingpai.com:8888/generic-webhook-trigger/invoke?token=$TOKEN
+  #           else
+  #             echo "Tag $TAG was existed."
+  #           fi
+  #         else
+  #           echo "Token invalid."
+  #         fi
+
+workflows:
+  version: 2
+  basic:
+    jobs:
+      - build
+      # - jenkins:
+      #     requires:
+      #       - build
+      #     context: smartpi-cocos-jenkins
+      #     filters:
+      #       branches:
+      #         only:
+      #           - released
+      #           - /^release\/v.*/

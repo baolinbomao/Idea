@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "check:prettier": "prettier --check 'assets/**/*.ts'",
+    "check:prettier:changed": "git diff --name-only origin/master... | grep -E '^assets.*\\.tsx?$' | xargs -r yarn prettier --check",
+    "check:file": "ts-node tools/fileCheck/fileCheck.ts",
+    "check:import": "ts-node tools/checker/import-checker.ts",
+    "check:import:location": "ts-node tools/checker/import-location-checker.ts"
+  },
+  "dependencies": {
+    "prettier": "^1.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.1"
+  }
+}
