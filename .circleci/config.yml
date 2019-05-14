@@ -37,6 +37,9 @@ jobs:
 
       # Run Check
 
+      # Run prettier check
+      - run: yarn check:prettier:changed
+
       # 文件uuid、重名、meta问题检查
       - run: yarn check:file
 
@@ -47,9 +50,6 @@ jobs:
 
       # # Run lint
       # - run: yarn lint
-
-      # Run prettier check
-      - run: yarn check:prettier:changed
 
       # Run test
       # - run: yarn test
