@@ -37,6 +37,8 @@ jobs:
 
       # Run Check
 
+      - run: ls -a
+
       # Run prettier check
       - run: yarn check:prettier:changed
 
