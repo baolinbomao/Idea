@@ -1,10 +1,19 @@
 {
+  "name": "idea",
+  "bundle": "1.9.0",
+  "repository": "https://github.com/baolinbomao/Idea.git",
+  "author": "fanbao <1850110629@qq.com>",
+  "private": true,
+  "engines": {
+    "node": ">=8.0",
+    "yarn": "^1.13.0"
+  },
   "scripts": {
     "check:prettier": "prettier --check 'assets/**/*.ts'",
     "check:prettier:changed": "git diff --name-only origin/master... | grep -E '^assets.*\\.tsx?$' | xargs -r yarn prettier --check",
-    "check:file": "ts-node tools/fileCheck/fileCheck.ts",
-    "check:import": "ts-node tools/checker/import-checker.ts",
-    "check:import:location": "ts-node tools/checker/import-location-checker.ts"
+    "check:file": "ts-node ~/Documents/Github/Idea/tools/fileCheck/fileCheck.ts",
+    "check:import": "ts-node ~/Documents/Github/Idea/tools/checker/import-checker.ts",
+    "check:import:location": "ts-node ~/Documents/Github/Idea/tools/checker/import-location-checker.ts"
   },
   "dependencies": {
     "prettier": "^1.17.0",
