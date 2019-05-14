@@ -1,18 +1,26 @@
+// {
+//   "compilerOptions": {
+//     "module": "commonjs",
+//     "lib": ["dom", "es5", "es2015.promise"],
+//     "target": "es5",
+//     "allowJs": true,
+//     "experimentalDecorators": true,
+//     "skipLibCheck": true
+//   },
+//   "exclude": ["node_modules", "library", "local", "temp", "build", "settings"]
+// }
 {
   "compilerOptions": {
     "module": "commonjs",
-    "lib": [ "dom", "es5", "es2015.promise" ],
+    "lib": ["dom", "es5", "es6", "es2016.array.include"],
     "target": "es5",
-    "allowJs": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
     "skipLibCheck": true
   },
-  "exclude": [
-    "node_modules",
-    "library",
-    "local",
-    "temp",
-    "build",
-    "settings"
-  ]
+  "exclude": ["node_modules", "library", "local", "temp", "build", "settings"]
 }

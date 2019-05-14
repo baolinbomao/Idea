@@ -37,13 +37,11 @@ jobs:
 
       # Run Check
 
-      - run: ls -a
+      # 文件uuid、重名、meta问题检查
+      - run: yarn check:file
 
       # Run prettier check
       - run: yarn check:prettier:changed
-
-      # 文件uuid、重名、meta问题检查
-      - run: yarn check:file
 
       # # 根据分支检查版本号
       # - run:

@@ -11,9 +11,9 @@
   "scripts": {
     "check:prettier": "prettier --check 'assets/**/*.ts'",
     "check:prettier:changed": "git diff --name-only origin/master... | grep -E '^assets.*\\.tsx?$' | xargs -r yarn prettier --check",
-    "check:file": "ts-node ~/Documents/Github/Idea/tools/fileCheck/fileCheck.ts",
-    "check:import": "ts-node ~/Documents/Github/Idea/tools/checker/import-checker.ts",
-    "check:import:location": "ts-node ~/Documents/Github/Idea/tools/checker/import-location-checker.ts"
+    "check:file": "ts-node tools/fileCheck/fileChecks.ts",
+    "check:import": "ts-node tools/checker/import-checker.ts",
+    "check:import:location": "ts-node tools/checker/import-location-checker.ts"
   },
   "dependencies": {
     "prettier": "^1.17.0",
